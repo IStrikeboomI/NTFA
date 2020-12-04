@@ -5,7 +5,7 @@ namespace writeToRegistry {
         //writes to registry using cmd commands
         system(std::string(R"(REG ADD HKLM\SOFTWARE\Classes\)"+ fileExtension +"\\ShellNew /v FileName /t REG_SZ /f /d \"" + fileName + "\"").c_str());
         if (!iconName.empty()) {
-            system(std::string(R"(REG ADD HKLM\SOFTWARE\Classes\)"+ fileExtension +R"(\ShellNew /v IconPath /t REG_SZ /f /d "%windir%\ShellNew\)" + iconName + "\"").c_str());
+            system(std::string(R"(REG ADD HKLM\SOFTWARE\Classes\)" + fileExtension + R"(\ShellNew /v IconPath /t REG_SZ /f /d "%windir%\ShellNew\)" + iconName + "\"").c_str());
         }
     }
 }

@@ -61,7 +61,7 @@ int WINAPI WinMain(HINSTANCE hinstance,HINSTANCE hinstancePrev,LPSTR args,int nC
     GetWindowRect(GetDesktopWindow(),&screen);
 
     //Creates Window
-    CreateWindowW(wc.lpszClassName,wc.lpszMenuName,WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX  | WS_VISIBLE ,screen.right / 2 - HEIGHT / 2,screen.bottom / 2 - WIDTH / 2,HEIGHT,WIDTH, nullptr, nullptr,wc.hInstance, nullptr);
+    CreateWindowW(wc.lpszClassName,wc.lpszMenuName, WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_VISIBLE ,screen.right / 2 - HEIGHT / 2,screen.bottom / 2 - WIDTH / 2,HEIGHT,WIDTH, nullptr, nullptr,wc.hInstance, nullptr);
 
     MSG msg = {nullptr};
 
@@ -72,8 +72,6 @@ int WINAPI WinMain(HINSTANCE hinstance,HINSTANCE hinstancePrev,LPSTR args,int nC
     return 0;
 }
 LRESULT CALLBACK windowProcedure(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam) {
-
-
     switch (msg) {
         case WM_DESTROY:
             PostQuitMessage(0);
@@ -120,10 +118,11 @@ LRESULT CALLBACK windowProcedure(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam)
                 }
                 case START_PROGRAM: {
                     if (!copyToShellnew::copyToShellnew(openFileBoxFile, openFileBoxIcon,IsDlgButtonChecked(hwnd, CHANGE_CHECKBOX_STATE))) {
-                        changeText(doneText,startButton,"File doesn't exist (FAILED, TRY AGAIN)");
+                        MessageBox(nullptr, "File doesn't exist (FAILED, TRY AGAIN)","ERROR",MB_ICONSTOP);
+                        reset();
                     } else {
-                        changeText(doneText,startButton,"Successfully finished");
                         writeToRegistry::writeToRegistry(getExtension(),fileName,iconName);
+                        changeText(doneText, startButton, "Successfully finished");
                     }
                     reset();
                     break;
