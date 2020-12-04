@@ -1,0 +1,4 @@
+#include "icon.h"
+#include <winres.h>
+
+MAIN_ICON ICON "program_icon.ico"

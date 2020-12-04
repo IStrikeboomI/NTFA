@@ -1,0 +1,6 @@
+#ifndef NEW_TAB_FILE_ADDER_ICON_H
+#define NEW_TAB_FILE_ADDER_ICON_H
+
+#define MAIN_ICON 117
+
+#endif
