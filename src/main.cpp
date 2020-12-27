@@ -1,7 +1,6 @@
 
 #include <windows.h>
 #include <iostream>
-#include "resources/icon/icon.h"
 #include "writeToRegistry.h"
 #include "copyToShellnew.h"
 #include <cstdio>
@@ -49,8 +48,8 @@ int WINAPI WinMain(HINSTANCE hinstance,HINSTANCE hinstancePrev,LPSTR args,int nC
     wc.lpszClassName = L"newTabFileAdder";
     wc.lpfnWndProc = windowProcedure;
     wc.lpszMenuName = L"New Tab File Adder";
-    //Adds icon in corner
-    wc.hIcon = (HICON) LoadImageW(wc.hInstance, MAKEINTRESOURCEW(MAIN_ICON), IMAGE_ICON, 10, 0, LR_DEFAULTSIZE | LR_SHARED);
+    //Adds icon in corner (117 is icon)
+    wc.hIcon = (HICON) LoadImageW(wc.hInstance, MAKEINTRESOURCEW(117), IMAGE_ICON, 10, 0, LR_DEFAULTSIZE | LR_SHARED);
 
     if (!RegisterClassW(&wc)) {
         return -1;

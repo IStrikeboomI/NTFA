@@ -1,4 +1,3 @@
-#include "icon.h"
 #include <winres.h>
 
-MAIN_ICON ICON "program_icon.ico"
+117 ICON "program_icon.ico"
