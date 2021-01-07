@@ -25,7 +25,6 @@ LPSTR openFileBoxIcon;
 LPSTR openFileBoxFile;
 std::string iconName;
 std::string fileName;
-char* fileNameCharArray;
 
 LRESULT CALLBACK windowProcedure(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam);
 void createButtons(HWND);
@@ -40,7 +39,6 @@ void reset();
 
 
 int WINAPI WinMain(HINSTANCE hinstance,HINSTANCE hinstancePrev,LPSTR args,int nCmdShow) {
-
     WNDCLASSW wc = {0};
     wc.hbrBackground = (HBRUSH) COLOR_WINDOW;
     wc.hInstance = hinstance;
@@ -163,13 +161,11 @@ void createText(HWND hwnd) {
 LPSTR openFileBox(HWND hwnd,const char* filter) {
     OPENFILENAME ofn = {};
 
-    fileNameCharArray = new char[MAX_PATH];
-
     ZeroMemory(&ofn,sizeof(ofn));
 
     ofn.lStructSize = sizeof(ofn);
     ofn.hwndOwner = hwnd;
-    ofn.lpstrFile = fileNameCharArray;
+    ofn.lpstrFile = new char[MAX_PATH];
     ofn.lpstrFile[0] = '\0';
     ofn.nMaxFile = MAX_PATH;
     ofn.lpstrFilter = filter;
@@ -214,5 +210,4 @@ void reset() {
     openFileBoxIcon = nullptr;
     fileName = "";
     iconName = "";
-    delete [] fileNameCharArray;
 }
