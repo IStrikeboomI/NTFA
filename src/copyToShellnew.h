@@ -2,7 +2,7 @@
 #include <string>
 namespace copyToShellnew{
 
-    static bool copyToShellnew(const LPSTR file,const LPSTR icon,const bool overwrite) {
+    static bool copyToShellnew(const LPSTR& file,const LPSTR& icon,const bool overwrite) {
         //Checks if shellnew folder exists and if it doesn't then it creates it
         DWORD shellnewFolder = GetFileAttributes(std::string(std::getenv("windir")).append("/ShellNew").c_str());
         if (shellnewFolder == INVALID_FILE_ATTRIBUTES) {

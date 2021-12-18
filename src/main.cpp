@@ -27,13 +27,13 @@ std::string iconName;
 std::string fileName;
 
 LRESULT CALLBACK windowProcedure(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam);
-void createButtons(HWND);
-LPSTR openFileBox(HWND,const char*);
-void changeText(HWND, HWND ,const char*);
-void changeFont(HWND);
-void createText(HWND);
-bool hasExtension(const LPSTR file);
-std::string getFileName(const LPSTR directory);
+void createButtons(const HWND& hwnd);
+LPSTR openFileBox(const HWND& hwnd,const char* filter);
+void changeText(const HWND& text, const HWND& button,const char* newText);
+void changeFont(const HWND& hwnd);
+void createText(const HWND& hwnd);
+bool hasExtension(const LPSTR& file);
+std::string getFileName(const LPSTR& directory);
 std::string getExtension();
 void reset();
 
@@ -133,7 +133,7 @@ LRESULT CALLBACK windowProcedure(HWND hwnd,UINT msg,WPARAM wparam,LPARAM lparam)
     return DefWindowProcW(hwnd,msg,wparam,lparam);
 }
 
-void createButtons(HWND hwnd) {
+void createButtons(const HWND& hwnd) {
     //creates start button
     startButton = CreateWindowW(L"Button",L"Start",WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON | WS_TABSTOP,40,400,100,30,hwnd,(HMENU) START_PROGRAM, nullptr, nullptr);
     //creates choose file buttons
@@ -149,7 +149,7 @@ void createButtons(HWND hwnd) {
     changeFont(chooseFileButton);
     changeFont(overwriteCheckBox);
 }
-void createText(HWND hwnd) {
+void createText(const HWND& hwnd) {
     fileText = CreateWindowW(L"static",L"Choose File",WS_VISIBLE | WS_CHILD,120,80,WIDTH,20,hwnd, nullptr, nullptr,nullptr);
     iconText = CreateWindowW(L"static",L"Choose Icon (Optional)",WS_VISIBLE | WS_CHILD,120,230,WIDTH,20,hwnd, nullptr, nullptr,nullptr);
     doneText = CreateWindowW(L"static",L"",WS_VISIBLE | WS_CHILD,40,385,WIDTH,15,hwnd, nullptr, nullptr,nullptr);
@@ -158,7 +158,7 @@ void createText(HWND hwnd) {
     changeFont(iconText);
     changeFont(doneText);
 }
-LPSTR openFileBox(HWND hwnd,const char* filter) {
+LPSTR openFileBox(const HWND& hwnd, const char* filter) {
     OPENFILENAME ofn = {};
 
     ZeroMemory(&ofn,sizeof(ofn));
@@ -176,28 +176,28 @@ LPSTR openFileBox(HWND hwnd,const char* filter) {
 
     return ofn.lpstrFile;
 }
-void changeText(HWND hwnd, HWND button,const char* name) {
+void changeText(const HWND& text, const HWND& button, const char* newText) {
     //Changes Text
-    SendMessage(hwnd,WM_SETTEXT,0, (LPARAM)name);
+    SendMessage(text,WM_SETTEXT,0, (LPARAM)newText);
     //Positions text to button
     //Gets button rectangle
     RECT buttonRect = {0};
     GetClientRect(button,&buttonRect);
     MapWindowPoints(button,GetParent(button),(LPPOINT)&buttonRect,2);
     //Sets position to button
-    SetWindowPos(hwnd, nullptr, buttonRect.left,buttonRect.top - 20,0,0,SWP_NOSIZE);
+    SetWindowPos(text, nullptr, buttonRect.left,buttonRect.top - 20,0,0,SWP_NOSIZE);
 }
-void changeFont(HWND object) {
+void changeFont(const HWND& hwnd) {
     NONCLIENTMETRICS metrics = {};
     metrics.cbSize = sizeof(metrics);
     SystemParametersInfo(SPI_GETNONCLIENTMETRICS, metrics.cbSize, &metrics, 0);
     HFONT font = CreateFontIndirect(&metrics.lfCaptionFont);
-    SendMessage(object,WM_SETFONT,(WPARAM)font,true);
+    SendMessage(hwnd,WM_SETFONT,(WPARAM)font,true);
 }
-bool hasExtension(const LPSTR file) {
+bool hasExtension(const LPSTR& file) {
     return std::string(file).find('.') != std::string::npos;
 }
-std::string getFileName(const LPSTR directory) {
+std::string getFileName(const LPSTR& directory) {
     return std::string(directory).substr(std::string(directory).find_last_of('\\') + 1);
 }
 std::string getExtension() {
